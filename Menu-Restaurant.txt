@@ -1,0 +1,81 @@
+import java.util.ArrayList;
+import java.util.Scanner;
+
+class MenuItem {
+    private String name;
+    private double price;
+
+    public MenuItem(String name, double price) {
+        this.name = name;
+        this.price = price;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public double getPrice() {
+        return price;
+    }
+
+    @Override
+    public String toString() {
+        return name + " - $" + price;
+    }
+}
+
+class Menu {
+    private ArrayList<MenuItem> items = new ArrayList<>();
+
+    public void addItem(MenuItem item) {
+        items.add(item);
+    }
+
+    public void displayMenu() {
+        System.out.println("Menu:");
+        for (int i = 0; i < items.size(); i++) {
+            System.out.println((i + 1) + ". " + items.get(i));
+        }
+    }
+
+    public MenuItem getItem(int index) {
+        if (index >= 0 && index < items.size()) {
+            return items.get(index);
+        }
+        return null;
+    }
+}
+
+public class RestaurantMenu {
+    public static void main(String[] args) {
+        Menu menu = new Menu();
+
+        menu.addItem(new MenuItem("Spaghetti Carbonara", 12.99));
+        menu.addItem(new MenuItem("Margherita Pizza", 10.99));
+        menu.addItem(new MenuItem("Caesar Salad", 6.99));
+        menu.addItem(new MenuItem("Chocolate Cake", 5.99));
+
+        Scanner scanner = new Scanner(System.in);
+
+        while (true) {
+            menu.displayMenu();
+            System.out.print("Enter the item number you want to order (or 0 to exit): ");
+            int choice = scanner.nextInt();
+
+            if (choice == 0) {
+                break;
+            }
+
+            MenuItem selectedItem = menu.getItem(choice - 1);
+            if (selectedItem != null) {
+                System.out.println("You ordered: " + selectedItem.getName());
+                System.out.println("Price: $" + selectedItem.getPrice());
+            } else {
+                System.out.println("Invalid choice. Please select a valid item.");
+            }
+        }
+
+        System.out.println("Thank you for dining with us!");
+        scanner.close();
+    }
+}
